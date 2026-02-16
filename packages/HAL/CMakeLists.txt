@@ -1,6 +1,7 @@
 add_library(hal
     src/GpioOut.cxx
     src/GpioIn.cxx
+    src/MultiGpioIn.cxx
     src/LinuxPwm.cxx
 )
 
