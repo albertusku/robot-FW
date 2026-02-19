@@ -117,7 +117,7 @@ Podrás ver:
 ## Ejemplo de uso
 
 ``` cpp
-hal::GpioOut r_en("gpiochip0", 23, "bts_r_en");
+hal::GpioOut r_en("/dev/gpiochip0", 23, "bts_r_en");
 
 r_en.set(true);   // HIGH
 r_en.set(false);  // LOW

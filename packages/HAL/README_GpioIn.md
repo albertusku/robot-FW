@@ -41,7 +41,7 @@ Salida típica:
 Uso en código:
 
 ``` cpp
-"gpiochip0"
+"/dev/gpiochip0"
 ```
 
 ------------------------------------------------------------------------
@@ -113,7 +113,7 @@ Devuelve:
 Ejemplo:
 
 ``` cpp
-hal::GpioIn button("gpiochip0", 17, "button_input");
+hal::GpioIn button("/dev/gpiochip0", 17, "button_input");
 
 if (button.read_digital()) {
     // estado activo
