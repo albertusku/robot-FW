@@ -9,7 +9,8 @@ class GpioIn {
 public:
     GpioIn(const std::string& chipname,
             unsigned int line_offset,
-            const std::string& consumer);
+            const std::string& consumer,
+            int bias = GPIOD_LINE_BIAS_PULL_UP);
 
     ~GpioIn();
 

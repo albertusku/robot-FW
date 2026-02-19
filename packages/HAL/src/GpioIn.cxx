@@ -3,9 +3,11 @@
 
 namespace hal {
 
+
 GpioIn::GpioIn(const std::string& chipname,
                  unsigned int line_offset,
-                 const std::string& consumer)
+                 const std::string& consumer,
+                 int bias)
     : line_offset_(line_offset)
 {
     chip_ = gpiod_chip_open(chipname.c_str());
@@ -17,8 +19,28 @@ GpioIn::GpioIn(const std::string& chipname,
         throw std::runtime_error("No puedo crear line settings");
 
     gpiod_line_settings_set_direction(settings, GPIOD_LINE_DIRECTION_INPUT);
-    gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_PULL_UP);
-
+    switch (bias)
+    {
+    case 1:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_AS_IS);
+        break;
+    case 2:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_UNKNOWN);
+        break;
+    case 3:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_DISABLED);
+        break;
+    case 4:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_PULL_UP);
+        break;
+    case 5:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_PULL_DOWN);
+        break;
+    default:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_PULL_UP);
+        break;
+    }
+    
     gpiod_line_config* line_cfg = gpiod_line_config_new();
     if (!line_cfg) {
         gpiod_line_settings_free(settings);
