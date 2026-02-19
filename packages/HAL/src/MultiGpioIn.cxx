@@ -5,7 +5,8 @@ namespace hal {
 
 MultiGpioIn::MultiGpioIn(const std::string& chipname,
                          const std::vector<unsigned int>& offsets,
-                         const std::string& consumer)
+                         const std::string& consumer,
+                         int bias = GPIOD_LINE_BIAS_PULL_UP)
     : offsets_(offsets)
 {
     if (offsets_.empty())
@@ -26,9 +27,27 @@ MultiGpioIn::MultiGpioIn(const std::string& chipname,
         settings,
         GPIOD_LINE_DIRECTION_INPUT);
 
-    gpiod_line_settings_set_bias(
-        settings,
-        GPIOD_LINE_BIAS_PULL_UP);
+    switch (bias)
+    {
+    case 1:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_AS_IS);
+        break;
+    case 2:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_UNKNOWN);
+        break;
+    case 3:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_DISABLED);
+        break;
+    case 4:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_PULL_UP);
+        break;
+    case 5:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_PULL_DOWN);
+        break;
+    default:
+        gpiod_line_settings_set_bias(settings,GPIOD_LINE_BIAS_PULL_UP);
+        break;
+    }
 
     gpiod_line_settings_set_edge_detection(
         settings,

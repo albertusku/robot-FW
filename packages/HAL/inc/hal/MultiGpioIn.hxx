@@ -18,7 +18,8 @@ class MultiGpioIn {
 public:
     MultiGpioIn(const std::string& chipname,
               const std::vector<unsigned int>& offsets,
-              const std::string& consumer);
+              const std::string& consumer,
+              int bias = GPIOD_LINE_BIAS_PULL_UP);
 
     ~MultiGpioIn();
 
